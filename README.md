@@ -14,12 +14,19 @@ This is a test project for Spring Boot. Developing a RESTful API with Spring Boo
 ### Installing
 
 1. Clone the repository
-2. Run `docker-compose up -d` to start the database
-3. Run `./gradlew bootRun` to start the application
+2. Create a `.env` file in the root of the project with the file `env.example` as a template. The `POSTGRES_PASSWORD` and `POSTGRES_USER` variables are required
+3. Run `docker-compose up -d` to start the database
+4. Run `./gradlew bootRun` to start the application
 
 ## Running the tests
 
 Run `./gradlew test` to run the tests
+
+## Manage migrations
+
+Run `./gradlew flywayInfo` to see the current status of the database
+Run `./gradlew flywayClean` to clean the database
+Run `./gradlew flywayMigrate` to run the migrations
 
 ## Built With
 
