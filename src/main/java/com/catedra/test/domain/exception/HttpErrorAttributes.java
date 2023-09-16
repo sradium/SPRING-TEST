@@ -20,6 +20,9 @@ public class HttpErrorAttributes extends DefaultErrorAttributes {
             errorAttributes.put("status", httpException.getHttpStatus().value());
             errorAttributes.put("error", httpException.getHttpStatus().getReasonPhrase());
             errorAttributes.put("message", httpException.getMessage());
+            errorAttributes.remove("timestamp");
+            errorAttributes.remove("path");
+            errorAttributes.remove("requestId");
         }
         return errorAttributes;
     }

@@ -3,6 +3,8 @@ package com.catedra.test.domain.user.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -17,6 +19,7 @@ public class User {
     private Long id;
     private String name;
     private String email;
+    @JsonIgnore
     private String password;
 
     @Override
@@ -26,21 +29,5 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setName(String newName) {
-        this.name = newName;
-    }
-
-    public void setEmail(String newEmail) {
-        this.email = newEmail;
     }
 }
