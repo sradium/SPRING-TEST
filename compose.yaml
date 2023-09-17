@@ -2,8 +2,14 @@ services:
   postgres:
     image: 'postgres:latest'
     environment:
-      - 'POSTGRES_DB=${DB_NAME}'
-      - 'POSTGRES_USER=${DB_USERNAME}'
-      - 'POSTGRES_PASSWORD=${DB_PASSWORD}'
+      - 'POSTGRES_DB=blog'
+      - 'POSTGRES_USER=secret_user'
+      - 'POSTGRES_PASSWORD=s3cr3t_p4ssw0rd'
     ports:
-      - '${DB_PORT}'
+      - '32770:5432'
+    networks:
+      - db
+
+networks:
+    db:
+        driver: bridge

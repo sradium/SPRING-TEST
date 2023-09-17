@@ -58,10 +58,12 @@ The API documentation is available at `https://app.swaggerhub.com/apis/sradium/s
 
 ## Improvements
 
+- Encrypt the password
 - Add authentication
 - Add authorization
 - Add more documentation
 - Add more endpoints
+- Store configuration variables in .env file
 
 ## Author
 
