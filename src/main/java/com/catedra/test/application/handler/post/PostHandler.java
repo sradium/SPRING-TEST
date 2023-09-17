@@ -6,6 +6,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.catedra.test.application.validation.post.PostDto;
+import com.catedra.test.application.validation.validator.ObjectValidator;
 import com.catedra.test.domain.post.entity.Post;
 import com.catedra.test.domain.post.service.PostService;
 
@@ -17,6 +18,7 @@ import reactor.core.publisher.Mono;
 public class PostHandler {
 
     private final PostService postService;
+    private final ObjectValidator objectValidator;
 
     public Mono<ServerResponse> findAll(ServerRequest request) {
         return ServerResponse.ok().
@@ -32,7 +34,8 @@ public class PostHandler {
     }
 
     public Mono<ServerResponse> save(ServerRequest request) {
-        Mono<PostDto> postDtoMono = request.bodyToMono(PostDto.class);
+        Mono<PostDto> postDtoMono = request.bodyToMono(PostDto.class)
+            .doOnNext(objectValidator::validate);
         return postDtoMono.flatMap(postDto ->
             ServerResponse.ok().
                 contentType(MediaType.APPLICATION_JSON).
@@ -41,7 +44,8 @@ public class PostHandler {
 
     public Mono<ServerResponse> update(ServerRequest request) {
         long id = Long.parseLong(request.pathVariable("id"));
-        Mono<PostDto> postDtoMono = request.bodyToMono(PostDto.class);
+        Mono<PostDto> postDtoMono = request.bodyToMono(PostDto.class)
+            .doOnNext(objectValidator::validate);
         return postDtoMono.flatMap(postDto ->
             ServerResponse.ok().
                 contentType(MediaType.APPLICATION_JSON).

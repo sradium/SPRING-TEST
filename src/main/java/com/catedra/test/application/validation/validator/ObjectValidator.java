@@ -1,4 +1,4 @@
-package com.catedra.test.application.validation;
+package com.catedra.test.application.validation.validator;
 
 import jakarta.validation.Validator;
 import jakarta.validation.ConstraintViolation;
@@ -23,7 +23,8 @@ public class ObjectValidator {
     public <T> T validate (T Object){
         Set<ConstraintViolation<T>>  violations = validator.validate(Object);
         if(!violations.isEmpty()){
-            throw new HttpException(HttpStatus.BAD_REQUEST, violations.toString());
+            String message = violations.iterator().next().getMessage();
+            throw new HttpException(HttpStatus.BAD_REQUEST, message);
         } else {
             return Object;
         }

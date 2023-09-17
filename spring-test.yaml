@@ -1,0 +1,330 @@
+swagger: '2.0'
+info:
+  description: Documentation of test sergio duran api.
+  version: 1.0.0
+  title: Spring Test
+  contact:
+    email: sgdurancaro@gmail.com
+  license:
+    name: MIT
+    url: https://github.com/sradium/SPRING-TEST/blob/main/LICENSE
+schemes:
+  - http
+host: localhost:8080
+basePath: /api/v1
+produces:
+  - application/json
+
+tags:
+  - name: users
+  - name: posts
+paths:
+  /user:
+    get:
+      summary: List all users available in the application
+      tags:
+        - users
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UserList'
+    post:
+      summary: Create new user instance
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - name
+              - email
+              - password
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Bad request
+          schema:
+            $ref: '#/definitions/BadRequestResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+      tags:
+        - users
+      description: Create new user instance
+  /user/{id}:
+    get:
+      summary: Get user by id
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: User id
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+      tags:
+        - users
+      description: Get user by id
+    put:
+      summary: Update a user
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: User id
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - name
+              - email
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Bad request
+          schema:
+            $ref: '#/definitions/BadRequestResponse'
+        '404':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+      tags:
+        - users
+      description: Update a user
+    delete:
+      summary: Delete user by id
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: User id
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+      tags:
+        - users
+      description: Delete user by id
+  /user/{id}/posts:
+    get:
+      summary: Gets all posts belonging to a user
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: User id
+      tags:
+        - users
+      description: Gets all posts belonging to a user
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PostList'
+  /post:
+    get:
+      summary: List all posts available
+      tags:
+        - posts
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PostList'
+      description: List all posts available
+    post:
+      summary: Create new post instance
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - title
+              - content
+              - user_id
+            properties:
+              title:
+                type: string
+              content:
+                type: string
+              user_id:
+                type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Post'
+        '400':
+          description: Bad request
+          schema:
+            $ref: '#/definitions/BadRequestResponse'
+      tags:
+        - posts
+      description: Create new post instance
+  /post/{id}:
+    get:
+      summary: Get post by id
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: Post id
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Post'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+      tags:
+        - posts
+      description: Get post by id
+    put:
+      summary: Update a post
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: Post id
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - title
+              - content
+            properties:
+              title:
+                type: string
+              content:
+                type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Post'
+        '400':
+          description: Bad request
+          schema:
+            $ref: '#/definitions/BadRequestResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+      tags:
+        - posts
+      description: Update a post
+    delete:
+      summary: Delete post by id
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: Post id
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+      tags:
+        - posts
+      description: Delete post by id
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+  Post:
+    type: object
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+      content:
+        type: string
+  UserList:
+    type: array
+    items:
+          $ref: '#/definitions/User'
+  PostList:
+    type: array
+    items:
+      $ref: '#/definitions/Post'
+  BadRequestResponse:
+    type: object
+    required:
+      - status
+      - error
+      - message
+    properties:
+      status:
+        type: integer
+      error:
+        type: string
+      message:
+        type: string
+  NotFoundResponse:
+    type: object
+    required:
+      - status
+      - error
+      - message
+    properties:
+      status:
+        type: integer
+      error:
+        type: string
+      message:
+        type: string
